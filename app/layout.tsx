@@ -2,18 +2,18 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Vibot - AI Memory Palace',
-  description: 'Voice-first mobile app that captures your thoughts and surprises you with AI-powered insights.',
-  metadataBase: new URL('https://vibot.app'),
+  title: 'Vibe Coding Academy - Code at the Speed of Thought',
+  description: 'Learn to build software with AI assistants. No computer science degree required. Express your vision, let AI handle the syntax.',
+  metadataBase: new URL('https://vibe-coding.academy'),
   openGraph: {
-    title: 'Vibot - AI Memory Palace',
-    description: 'Voice-first mobile app that captures your thoughts and surprises you with AI-powered insights.',
+    title: 'Vibe Coding Academy - Code at the Speed of Thought',
+    description: 'Learn to build software with AI assistants. No computer science degree required. Express your vision, let AI handle the syntax.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibot - AI Memory Palace',
-    description: 'Voice-first mobile app that captures your thoughts and surprises you with AI-powered insights.',
+    title: 'Vibe Coding Academy - Code at the Speed of Thought',
+    description: 'Learn to build software with AI assistants. No computer science degree required.',
   },
 }
 
