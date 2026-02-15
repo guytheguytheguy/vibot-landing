@@ -5,13 +5,37 @@ import { useState } from 'react'
 export default function Home() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle email submission here
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    setError('')
+    setSubmitting(true)
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok && res.status !== 200) {
+        setError(data.error || 'Something went wrong. Please try again.')
+        return
+      }
+
+      setSubmitted(true)
+      setEmail('')
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const faqs = [
@@ -290,16 +314,23 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="px-8 py-4 bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 whitespace-nowrap"
+                disabled={submitting}
+                className="px-8 py-4 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 disabled:cursor-not-allowed rounded-xl font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 whitespace-nowrap"
               >
-                Join Waitlist
+                {submitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </div>
           </form>
 
           {submitted && (
             <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-300">
-              ✓ You're on the list! Check your email for confirmation.
+              You're on the list! We'll notify you when we launch.
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-300">
+              {error}
             </div>
           )}
 
